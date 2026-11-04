@@ -27,12 +27,10 @@ defineBlock({
 })
 
 const fallback: Content = {
-	brand: 'Clarity',
+	brand: 'Kristal',
 	links: [
-		{ label: 'À propos', to: '/about' },
-		{ label: 'Pourquoi', to: '/why-sell-with-us' },
-		{ label: 'Comment', to: '/how-it-works' },
-		{ label: 'Journal', to: '/blog' },
+		{ label: 'About', to: '/about' },
+		{ label: 'Journal', to: '/journal' },
 		{ label: 'Contact', to: '/contact' },
 	],
 }

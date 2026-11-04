@@ -26,17 +26,26 @@ defineBlock({
 })
 
 const { data } = useGlobalBlock<Content>('SiteFooter')
+const fallback: Content = {
+	brand: 'Kristal',
+	note: 'Considered skincare for every day. Formulations that respect the skin and the planet.',
+	links: [
+		{ label: 'About', to: '/about' },
+		{ label: 'Journal', to: '/journal' },
+		{ label: 'Contact', to: '/contact' },
+	],
+}
 </script>
 
 <template>
 	<footer class="border-top mt-6">
 		<div class="w-1100px mx-auto px-2 m_px-1 py-3 grid gap-2">
 			<div class="flex space-between align-items-end gap-2 m_column m_align-items-start">
-				<p class="txt-28 m-0" style="letter-spacing: -0.03em">{{ data?.brand }}</p>
-				<p class="sans txt13 quiet m-0 measure">{{ data?.note }}</p>
+				<p class="txt-28 m-0" style="letter-spacing: -0.03em">{{ data?.brand || fallback.brand }}</p>
+				<p class="sans txt13 quiet m-0 measure">{{ data?.note || fallback.note }}</p>
 			</div>
 			<nav class="flex gap-1-5 flex-wrap sans txt13 quiet" aria-label="Informations">
-				<router-link v-for="link in data?.links ?? []" :key="link.to" :to="link.to" class="decoration-none">{{ link.label }}</router-link>
+				<router-link v-for="link in data?.links?.length ? data.links : fallback.links" :key="link.to" :to="link.to" class="decoration-none">{{ link.label }}</router-link>
 			</nav>
 		</div>
 	</footer>
