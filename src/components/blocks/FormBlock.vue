@@ -12,11 +12,12 @@ interface Field {
 }
 
 interface Props {
-	form?: string
-	heading?: string
-	intro?: string
+	kicker?: string
+	title?: string
+	body?: string
+	form_name?: string
 	submit_label?: string
-	success?: string
+	success_message?: string
 	fields?: Field[]
 }
 
@@ -32,27 +33,28 @@ const fieldSchema = defineSchema({
 })
 
 const schema = defineSchema<Props>({
-	form: $.text('Form definition'),
-	heading: $.text('Heading'),
-	intro: $.textarea('Intro'),
-	submit_label: $.text('Submit label'),
-	success: $.text('Success message'),
+	kicker: $.text('Kicker'),
+	title: $.text('Titre'),
+	body: $.textarea('Texte'),
+	form_name: $.text('Définition de formulaire'),
+	submit_label: $.text('Bouton'),
+	success_message: $.text('Message de confirmation'),
 	fields: $.array('Champs', fieldSchema, { collapsible: true }),
 })
 
 defineBlock({
 	name: 'FormBlock',
-	label: 'Form',
+	label: 'Formulaire',
 	icon: 'assignment',
 	category: 'form',
-	description: 'Renders a public form definition with Bagelink inputs and submits it.',
+	description: 'Rend une définition de formulaire publique avec des champs Bagelink.',
 	schema,
 	defaults: {},
 })
 
 const props = withDefaults(defineProps<Props>(), {
 	submit_label: 'Envoyer',
-	success: 'Votre demande a bien été envoyée.',
+	success_message: 'Merci. Nous vous répondrons.',
 })
 
 const values = reactive<Record<string, string | boolean>>({})
@@ -62,14 +64,14 @@ const sending = ref(false)
 const fields = computed(() => props.fields ?? [])
 
 async function submit() {
-	if (!props.form || sending.value) return
+	if (!props.form_name || sending.value) return
 	sending.value = true
 	error.value = ''
 	try {
-		const response = await fetch(`/api/form/submit/${props.form}`, {
+		const response = await fetch(`/api/form/submit/${props.form_name}`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ ...values, _meta: { locale: 'fr' } }),
+			body: JSON.stringify({ ...values, _meta: { locale: 'en' } }),
 		})
 		if (!response.ok) throw new Error('submit failed')
 		done.value = true
@@ -84,19 +86,20 @@ async function submit() {
 <template>
 	<section class="px-2 m_px-1 py-4">
 		<div class="w-1100px mx-auto measure">
-			<h2 v-if="props.heading" class="txt-36 line-height-11 m-0">{{ props.heading }}</h2>
-			<p v-if="props.intro" class="sans line-height-15 m-0 mt-1">{{ props.intro }}</p>
-			<p v-if="done" class="sans line-height-15 mt-2">{{ props.success }}</p>
+			<p v-if="props.kicker" class="txt12 uppercase tracking-wider quiet m-0 mb-1">{{ props.kicker }}</p>
+			<h2 v-if="props.title" class="txt-32 line-height-12 m-0">{{ props.title }}</h2>
+			<p v-if="props.body" class="line-height-15 m-0 mt-1">{{ props.body }}</p>
+			<p v-if="done" class="line-height-15 mt-2">{{ props.success_message }}</p>
 			<form v-else class="grid gap-1 mt-2" @submit.prevent="submit">
 				<template v-for="field in fields" :key="field.name">
-					<label v-if="field.kind === 'checkbox'" class="sans flex gap-075 align-items-center">
+					<label v-if="field.kind === 'checkbox'" class="flex gap-075 align-items-center">
 						<Checkbox v-model="values[field.name]" />
 						<span>{{ field.title }}</span>
 					</label>
 					<SelectBtn v-else-if="field.kind === 'choice'" v-model="values[field.name]" :label="field.title" :options="field.options" />
 					<TextInput v-else v-model="values[field.name]" underlined :label="field.title" :type="field.kind === 'textarea' ? 'textarea' : field.kind" :required="field.required" />
 				</template>
-				<p v-if="error" class="sans m-0">{{ error }}</p>
+				<p v-if="error" class="m-0">{{ error }}</p>
 				<Btn type="submit" :value="props.submit_label" :disabled="sending" />
 			</form>
 		</div>

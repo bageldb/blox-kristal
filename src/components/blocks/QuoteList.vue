@@ -3,25 +3,25 @@ import { defineBlock } from '@bagelink/blox'
 import { defineSchema, $ } from '@bagelink/vue'
 
 interface Quote { quote?: string; name?: string; detail?: string }
-interface Props { kicker?: string; heading?: string; items?: Quote[] }
+interface Props { kicker?: string; title?: string; items?: Quote[] }
 
 const schema = defineSchema<Props>({
 	kicker: $.text('Kicker'),
-	heading: $.text('Heading'),
-	items: $.array('Quotes', defineSchema({
-		quote: $.textarea('Quote'),
-		name: $.text('Name'),
-		detail: $.text('Detail'),
+	title: $.text('Titre'),
+	items: $.array('Citations', defineSchema({
+		quote: $.textarea('Citation'),
+		name: $.text('Nom'),
+		detail: $.text('Détail'),
 	}), { collapsible: true, allowReorder: true }),
 })
 
 defineBlock({
 	name: 'QuoteList',
-	label: 'Quotes',
+	label: 'Citations',
 	icon: 'format_quote',
 	category: 'content',
 	order: 50,
-	description: 'Quotes on soft cards with the name underneath.',
+	description: 'Citations sur cartes douces, avec le nom en dessous.',
 	schema,
 	defaults: { items: [] },
 })
@@ -33,7 +33,7 @@ const props = withDefaults(defineProps<Props>(), { items: () => [] })
 	<section class="px-2 m_px-1 py-4">
 		<div class="w-1100px mx-auto">
 			<p v-if="props.kicker" class="txt12 uppercase tracking-wider quiet m-0 mb-1">{{ props.kicker }}</p>
-			<h2 class="txt-32 line-height-12 m-0">{{ props.heading }}</h2>
+			<h2 class="txt-32 line-height-12 m-0">{{ props.title }}</h2>
 			<ul class="bare grid grid-wrap-3 m_grid-wrap-1 gap-1 mt-3">
 				<li v-for="(item, i) in props.items" :key="item.name || i" class="panel grid align-content-space-between" style="min-height: 12rem">
 					<p class="line-height-15 m-0">“{{ item.quote }}”</p>
