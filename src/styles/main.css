@@ -1,9 +1,9 @@
 :root {
-	--bgl-primary: #201a13;
-	--bgl-bg: #f4f1ea;
-	--bgl-font-color: #201a13;
-	--bgl-muted: #6d6457;
-	--bgl-border-color: rgba(32, 26, 19, 0.1);
+	--bgl-primary: #55604a;
+	--bgl-bg: #f3efe6;
+	--bgl-font-color: #241f18;
+	--bgl-muted: #6f6758;
+	--bgl-border-color: rgba(36, 31, 24, 0.1);
 	--bgl-font-display: 'Fraunces', Georgia, serif;
 	--bgl-font: 'Hanken Grotesk', system-ui, sans-serif;
 	--bgl-font-size: 17px;
@@ -78,11 +78,14 @@ a.bgl_flatPill {
 .stone > figure img { border-radius: 26px; display: block; }
 
 .panel {
-	background: #fffdf8;
+	background: #fbf8f1;
 	border: 1px solid var(--bgl-border-color);
 	border-radius: 20px;
 	padding: 1.6rem;
 }
+
+.band { background: #e7e1d2; }
+.band-deep { background: var(--bgl-primary); color: #f3efe6; }
 
 .card-link { display: block; text-decoration: none; transition: transform 0.18s ease; }
 .card-link:hover { transform: translateY(-3px); }
