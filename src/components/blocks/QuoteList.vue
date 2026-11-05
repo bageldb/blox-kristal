@@ -21,7 +21,7 @@ defineBlock({
 	icon: 'format_quote',
 	category: 'content',
 	order: 50,
-	description: 'Short quotes on paper cards.',
+	description: 'Quotes on soft cards with the name underneath.',
 	schema,
 	defaults: { items: [] },
 })
@@ -32,12 +32,12 @@ const props = withDefaults(defineProps<Props>(), { items: () => [] })
 <template>
 	<section class="px-2 m_px-1 py-4">
 		<div class="w-1100px mx-auto">
-			<p v-if="props.kicker" class="sans txt12 uppercase tracking-wider quiet m-0 mb-1">{{ props.kicker }}</p>
-			<h2 class="txt-36 line-height-11 m-0">{{ props.heading }}</h2>
+			<p v-if="props.kicker" class="txt12 uppercase tracking-wider quiet m-0 mb-1">{{ props.kicker }}</p>
+			<h2 class="txt-32 line-height-12 m-0">{{ props.heading }}</h2>
 			<ul class="bare grid grid-wrap-3 m_grid-wrap-1 gap-1 mt-3">
-				<li v-for="(item, i) in props.items" :key="item.name || i" class="sheet p-1-5">
+				<li v-for="(item, i) in props.items" :key="item.name || i" class="panel grid align-content-space-between" style="min-height: 12rem">
 					<p class="line-height-15 m-0">“{{ item.quote }}”</p>
-					<p class="sans txt14 quiet m-0 mt-1">{{ item.name }}<span v-if="item.detail"> · {{ item.detail }}</span></p>
+					<p class="txt14 quiet m-0 mt-1">{{ item.name }}<span v-if="item.detail"> · {{ item.detail }}</span></p>
 				</li>
 			</ul>
 		</div>

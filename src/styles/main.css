@@ -84,6 +84,9 @@ a.bgl_flatPill {
 	padding: 1.6rem;
 }
 
+.card-link { display: block; text-decoration: none; transition: transform 0.18s ease; }
+.card-link:hover { transform: translateY(-3px); }
+
 .pre { white-space: pre-line; }
 img.photo { width: 100%; height: auto; display: block; }
 
